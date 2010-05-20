@@ -1,6 +1,8 @@
 Lunar: full text searching on top of Redis
 ==========================================
 
+Read the documentation at http://sinefunc.github.com/lunar/doc
+
 But why?
 --------
 We have been using Redis as our datastore exclusively for a lot of projects.
