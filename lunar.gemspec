@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Cyril David"]
   s.date = %q{2010-05-21}
-  s.description = %q{TODO: longer description of your gem}
+  s.description = %q{Features full text searching via metaphones, range querying for numbers, fuzzy searching and sorting based on customer fields}
   s.email = %q{cyx.ucron@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
      "lib/lunar/scoring.rb",
      "lib/lunar/stopwords.rb",
      "lib/lunar/words.rb",
+     "lunar.gemspec",
      "test/helper.rb",
      "test/test_fuzzy_indexing.rb",
      "test/test_index.rb",
@@ -46,7 +47,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.6}
-  s.summary = %q{TODO: one-line summary of your gem}
+  s.summary = %q{A redis based full text search engine}
   s.test_files = [
     "test/helper.rb",
      "test/test_fuzzy_indexing.rb",
