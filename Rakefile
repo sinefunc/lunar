@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "lunar"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{A redis based full text search engine}
+    gem.description = %Q{Features full text searching via metaphones, range querying for numbers, fuzzy searching and sorting based on customer fields}
     gem.email = "cyx.ucron@gmail.com"
     gem.homepage = "http://github.com/sinefunc/lunar"
     gem.authors = ["Cyril David"]
