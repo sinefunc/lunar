@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Documentation by YARD 0.5.4</title>
+<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html" title="Index">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><div id='filecontents'><h1>Lunar: full text searching on top of Redis</h1>
+
+<h2>But why?</h2>
+
+<p>We have been using Redis as our datastore exclusively for a lot of projects.
+But searching is still something that is required by most projects. Given
+those requirements and what we have, we could:</p>
+
+<ol>
+<li>Use SOLR and install it / manage it on every application we build.</li>
+<li>Use Sphinx (mind you we don't have MySQL running in our server too).</li>
+<li>Build our own (this appears to be something prevalent nowadays :D)</li>
+</ol>
+
+
+<h2>Sphinx vs Lunar vs SOLR</h2>
+
+<p>SOLR is definitely the way to go if you have heavyweight searching requirements.
+Sphinx on the other hand, is probably an even match against Lunar.</p>
+
+<h2>Features</h2>
+
+<ol>
+<li>Full text search matching using metaphones.</li>
+<li>Ability to search by a specific field.</li>
+<li>Range matching for <code>number</code>s.</li>
+<li>Fuzzy matching for address book style autocompletion needs.</li>
+</ol>
+
+
+<p>Probably the most unique thing about Lunar is its Fuzzy matching
+capability. SOLR and Sphinx don't do this out of the box.</p>
+
+<h2>Example</h2>
+
+<p>Given you want to index a document with a <code>namespace</code> Gadget.</p>
+
+<pre class="code"><span class='const'>Lunar</span><span class='period'>.</span><span class='id index'>index</span> <span class='const'>Gadget</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
+  <span class='id i'>i</span><span class='period'>.</span><span class='id text'>text</span>  <span class='symbol'>:name</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>iphone 3gs</span><span class='tstring_end'>'</span></span>
+  <span class='id i'>i</span><span class='period'>.</span><span class='id text'>text</span>  <span class='symbol'>:tags</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>mobile apple smartphone</span><span class='tstring_end'>'</span></span>
+
+  <span class='id i'>i</span><span class='period'>.</span><span class='id number'>number</span> <span class='symbol'>:price</span><span class='comma'>,</span> <span class='int'>200</span>
+  <span class='id i'>i</span><span class='period'>.</span><span class='id number'>number</span> <span class='symbol'>:rating</span><span class='comma'>,</span> <span class='float'>25.5</span>
+
+  <span class='id i'>i</span><span class='period'>.</span><span class='id sortable'>sortable</span> <span class='symbol'>:votes</span><span class='comma'>,</span> <span class='int'>50</span>
+<span class='kw'>end</span>
+
+<span class='comment'>#  with this declaration, you can now search:
+</span><span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Gadget</span><span class='comma'>,</span> <span class='symbol'>:q</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>iphone</span><span class='tstring_end'>'</span></span>
+<span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Gadget</span><span class='comma'>,</span> <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>iphone</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='symbol'>:tags</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>mobile</span><span class='tstring_end'>'</span></span>
+<span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Gadget</span><span class='comma'>,</span> <span class='symbol'>:price</span> <span class='op'>=&gt;</span> <span class='int'>150</span><span class='op'>..</span><span class='int'>250</span>
+
+<span class='comment'># If you need fuzzy matching you can also do that:
+</span><span class='const'>Lunar</span><span class='period'>.</span><span class='id index'>index</span> <span class='const'>Customer</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
+  <span class='id i'>i</span><span class='period'>.</span><span class='id id'>id</span> <span class='int'>1001</span>
+  <span class='id i'>i</span><span class='period'>.</span><span class='id fuzzy'>fuzzy</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Abraham Lincoln</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span>
+
+<span class='const'>Lunar</span><span class='period'>.</span><span class='id index'>index</span> <span class='const'>Customer</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
+  <span class='id i'>i</span><span class='period'>.</span><span class='id id'>id</span> <span class='int'>1002</span>
+  <span class='id i'>i</span><span class='period'>.</span><span class='id fuzzy'>fuzzy</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Barack Obama</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span>
+
+<span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Customer</span><span class='comma'>,</span> <span class='symbol'>:fuzzy</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>A</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+<span class='comment'># returns [Customer[1001]]
+</span>
+<span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Customer</span><span class='comma'>,</span> <span class='symbol'>:fuzzy</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>B</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+<span class='comment'># returns [Customer[1002]]
+</span>
+<span class='comment'># for sorting, you can do it on the `ResultSet` returned:
+</span><span class='id results'>results</span> <span class='op'>=</span> <span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Gadget</span> <span class='symbol'>:q</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>iphone</span><span class='tstring_end'>'</span></span><span class='comma'>,</span> <span class='symbol'>:tags</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>mobile</span><span class='tstring_end'>'</span></span>
+<span class='id results'>results</span><span class='period'>.</span><span class='id sort'>sort</span><span class='lparen'>(</span><span class='symbol'>:by</span> <span class='op'>=&gt;</span> <span class='symbol'>:votes</span><span class='comma'>,</span> <span class='symbol'>:order</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ASC</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id results'>results</span><span class='period'>.</span><span class='id sort'>sort</span><span class='lparen'>(</span><span class='symbol'>:by</span> <span class='op'>=&gt;</span> <span class='symbol'>:votes</span><span class='comma'>,</span> <span class='symbol'>:order</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>DESC</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+
+<span class='comment'># this is also compatible with the pagination gem of course:
+</span><span class='comment'># let's say in our sinatra handler we do something like:
+</span>
+<span class='id get'>get</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>/gadget/search</span><span class='tstring_end'>'</span></span> <span class='kw'>do</span>
+  <span class='ivar'>@gadgets</span> <span class='op'>=</span> <span class='id paginate'>paginate</span><span class='lparen'>(</span><span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span><span class='lparen'>(</span><span class='const'>Gadget</span><span class='comma'>,</span> <span class='symbol'>:q</span> <span class='op'>=&gt;</span> <span class='id params'>params</span><span class='lbracket'>[</span><span class='symbol'>:q</span><span class='rbracket'>]</span><span class='rparen'>)</span><span class='comma'>,</span>
+    <span class='symbol'>:per_page</span> <span class='op'>=&gt;</span> <span class='int'>10</span><span class='comma'>,</span> <span class='symbol'>:page</span> <span class='op'>=&gt;</span> <span class='id params'>params</span><span class='lbracket'>[</span><span class='symbol'>:page</span><span class='rbracket'>]</span><span class='comma'>,</span>
+    <span class='symbol'>:sort_by</span> <span class='op'>=&gt;</span> <span class='symbol'>:votes</span><span class='comma'>,</span> <span class='symbol'>:order</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>DESC</span><span class='tstring_end'>'</span></span>
+  <span class='rparen'>)</span>
+<span class='kw'>end</span>
+
+<span class='comment'># see http://github.com/sinefunc/pagination for more info.
+</span></pre>
+
+<h2>Under the Hood?</h2>
+
+<p>A quick rundown of what happens when we do fulltext indexing:</p>
+
+<pre class="code"><span class='const'>Lunar</span><span class='period'>.</span><span class='id index'>index</span> <span class='symbol'>:Gadget</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
+  <span class='id i'>i</span><span class='period'>.</span><span class='id id'>id</span> <span class='int'>1001</span>
+  <span class='id i'>i</span><span class='period'>.</span><span class='id text'>text</span> <span class='symbol'>:title</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apple apple apple macbook macbook pro</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span>
+
+<span class='comment'># Executes the ff: in redis:
+</span><span class='comment'>#
+</span><span class='comment'># ZADD Lunar:Gadget:title:APL  3 1001
+</span><span class='comment'># ZADD Lunar:Gadget:title:MKBK 2 1001
+</span><span class='comment'># ZADD Lunar:Gadget:title:PR   1 1001
+</span><span class='comment'>#
+</span><span class='comment'># In addition a reference of all the words are stored
+</span><span class='comment'># SMEMBERS Lunar:Gadget:Metaphones:1001:title
+</span><span class='comment'># =&gt; (APL, MKBK, PR)
+</span></pre>
+
+<h2>Note on Patches/Pull Requests</h2>
+
+<ul>
+<li>Fork the project.</li>
+<li>Make your feature addition or bug fix.</li>
+<li>Add tests for it. This is important so I don't break it in a
+future version unintentionally.</li>
+<li>Commit, do not mess with rakefile, version, or history.
+(if you want to have your own version, that is fine but bump version in a
+commit by itself I can ignore when I pull)</li>
+<li>Send me a pull request. Bonus points for topic branches.</li>
+</ul>
+
+
+<h3>Copyright</h3>
+
+<p>Copyright (c) 2010 Cyril David. See LICENSE for details.</p></div></div>
+    
+    <div id="footer">
+  Generated on Fri May 21 06:56:23 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
+  0.5.4 (ruby-1.9.1).
+</div>
+
+  </body>
+</html>

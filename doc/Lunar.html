@@ -1,0 +1,658 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta name="Content-Type" content="text/html; charset=utf-8" />
+<title>Module: Lunar</title>
+<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+<link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (L)</a> &raquo; 
+    
+    
+    <span class="title">Lunar</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  <a id="class_list_link" href="#">Class List</a>
+  <a id="method_list_link" href="#">Method List</a>
+  <a id ="file_list_link" href="#">File List</a>
+</div>
+
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: Lunar 
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+      <dt class="r1">Extends:</dt>
+      <dd class="r1"><a href="Lunar/Connection.html" title="Lunar::Connection (module)">Lunar::Connection</a></dd>
+      
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/lunar.rb<span class="defines">,<br />
+  lib/lunar/index.rb,<br /> lib/lunar/words.rb,<br /> lib/lunar/scoring.rb,<br /> lib/lunar/stopwords.rb,<br /> lib/lunar/fuzzy_word.rb,<br /> lib/lunar/connection.rb,<br /> lib/lunar/result_set.rb,<br /> lib/lunar/lunar_nest.rb,<br /> lib/lunar/range_matches.rb,<br /> lib/lunar/fuzzy_matches.rb,<br /> lib/lunar/keyword_matches.rb</span>
+</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Defined Under Namespace</h2>
+<p class="children">
+   
+    
+      <strong class="modules">Modules:</strong> <a href="Lunar/Connection.html" title="Lunar::Connection (module)">Connection</a>, <a href="Lunar/Stopwords.html" title="Lunar::Stopwords (module)">Stopwords</a>
+    
+   
+    
+      <strong class="classes">Classes:</strong> <a href="Lunar/FuzzyWord.html" title="Lunar::FuzzyWord (class)">FuzzyWord</a>, <a href="Lunar/Index.html" title="Lunar::Index (class)">Index</a>, <a href="Lunar/ResultSet.html" title="Lunar::ResultSet (class)">ResultSet</a>
+    
+  
+</p>
+
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="VERSION-constant" class="">VERSION =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>0.5.0</span><span class='tstring_end'>'</span></span></pre></dd>
+      
+    </dl>
+  
+
+
+  
+  
+  
+  
+
+  
+    <h2>Class Method Summary</h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#delete-class_method" title="delete (class method)">+ (nil) <strong>delete</strong>(namespace, id) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Delete a document identified by its namespace and id.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#index-class_method" title="index (class method)">+ (Lunar::Index) <strong>index</strong>(namespace) {|Lunar::Index| ... }</a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Index any document using a namespace.
+</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#search-class_method" title="search (class method)">+ (Object) <strong>search</strong>(namespace, options, finder = lambda { |id| namespace[id] }) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>
+Search for a document, scoped under a namespace.
+</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods included from <a href="Lunar/Connection.html" title="Lunar::Connection (module)">Lunar::Connection</a></h3>
+  <p class="inherited"><a href="Lunar/Connection.html#connect-instance_method" title="Lunar::Connection#connect (method)">connect</a></p>
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="delete-class_method">
+  
+    + (<tt>nil</tt>) <strong>delete</strong>(namespace, id) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Delete a document identified by its namespace and id.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>#to_s</tt>)</span>
+      
+      
+        <span class='name'>namespace</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the namespace of the document to delete.
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>#to_s</tt>)</span>
+      
+      
+        <span class='name'>id</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the id of the document to delete.
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+51
+52
+53</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/lunar.rb', line 51</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='id namespace'>namespace</span><span class='comma'>,</span> <span class='id id'>id</span><span class='rparen'>)</span>
+  <span class='const'>Index</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id namespace'>namespace</span><span class='rparen'>)</span><span class='period'>.</span><span class='id delete'>delete</span><span class='lparen'>(</span><span class='id id'>id</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="index-class_method">
+  
+    + (<tt><a href="Lunar/Index.html" title="Lunar::Index (class)">Lunar::Index</a></tt>) <strong>index</strong>(namespace) {|Lunar::Index| ... }
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Index any document using a namespace. The namespace can be a class, or a
+plain Symbol/String.
+</p>
+<p>
+@example:
+</p>
+<pre class="code">
+  <span class='const'>Lunar</span><span class='period'>.</span><span class='id index'>index</span> <span class='const'>Gadget</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
+    <span class='id i'>i</span><span class='period'>.</span><span class='id text'>text</span>  <span class='symbol'>:name</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>iphone 3gs</span><span class='tstring_end'>'</span></span>
+    <span class='id i'>i</span><span class='period'>.</span><span class='id text'>text</span>  <span class='symbol'>:tags</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>mobile apple smartphone</span><span class='tstring_end'>'</span></span>
+
+    <span class='id i'>i</span><span class='period'>.</span><span class='id number'>number</span> <span class='symbol'>:price</span><span class='comma'>,</span> <span class='int'>200</span>
+    <span class='id i'>i</span><span class='period'>.</span><span class='id number'>number</span> <span class='symbol'>:rating</span><span class='comma'>,</span> <span class='float'>25.5</span>
+
+    <span class='id i'>i</span><span class='period'>.</span><span class='id sortable'>sortable</span> <span class='symbol'>:votes</span><span class='comma'>,</span> <span class='int'>50</span>
+  <span class='kw'>end</span>
+</pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>String</tt>, <tt>Symbol</tt>, <tt>Class</tt>)</span>
+      
+      
+        <span class='name'>namespace</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+the namespace if this document.
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Yields:</h3>
+<ul class="yield">
+  
+    <li>
+      
+        <span class='type'>(<tt><a href="Lunar/Index.html" title="Lunar::Index (class)">Lunar::Index</a></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+an instance of Lunar::Index.
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'>(<tt><a href="Lunar/Index.html" title="Lunar::Index (class)">Lunar::Index</a></tt>)</span>
+      
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+returns the yielded Lunar::Index.
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <h3>See Also:</h3>
+  <ul class="see">
+    
+      <li><a href="Lunar/Index.html#initialize-instance_method" title="Lunar::Index#initialize (method)">Lunar::Index#initialize</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+42
+43
+44</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/lunar.rb', line 42</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id index'>index</span><span class='lparen'>(</span><span class='id namespace'>namespace</span><span class='rparen'>)</span>
+  <span class='const'>Index</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id namespace'>namespace</span><span class='rparen'>)</span><span class='period'>.</span><span class='id tap'>tap</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='kw'>yield</span> <span class='id i'>i</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="search-class_method">
+  
+    + (<tt>Object</tt>) <strong>search</strong>(namespace, options, finder = lambda { |id| namespace[id] }) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Search for a document, scoped under a namespace.
+</p>
+<p>
+@example:
+</p>
+<pre class="code">
+  <span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Gadget</span><span class='comma'>,</span> <span class='symbol'>:q</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apple</span><span class='tstring_end'>&quot;</span></span>
+  <span class='comment'># returns all gadgets with `text` apple.
+</span>
+  <span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Gadget</span><span class='comma'>,</span> <span class='symbol'>:q</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apple</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:description</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cool</span><span class='tstring_end'>&quot;</span></span>
+  <span class='comment'># returns all gadgets with `text` apple and description:cool
+</span>
+  <span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Gadget</span><span class='comma'>,</span> <span class='symbol'>:q</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>phone</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:price</span> <span class='op'>=&gt;</span> <span class='int'>200</span><span class='op'>..</span><span class='int'>250</span>
+  <span class='comment'># returns all gadgets with `text` phone priced between 200 to 250
+</span>
+  <span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Customer</span><span class='comma'>,</span> <span class='symbol'>:fuzzy</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ad</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+  <span class='comment'># returns all customers with their first / last name beginning with 'ad'
+</span>
+  <span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Customer</span><span class='comma'>,</span> <span class='symbol'>:fuzzy</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ad</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span> <span class='symbol'>:age</span> <span class='op'>=&gt;</span> <span class='int'>20</span><span class='op'>..</span><span class='int'>25</span>
+  <span class='comment'># returns all customers with name starting with 'ad' aged 20 to 25.
+</span></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='type'>(<tt>#to_s</tt>)</span>
+      
+      
+        <span class='name'>namespace</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+search under which scope e.g. Gadget
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <span class='name'>options</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+i.e. :q, :field1, :field2, :fuzzy
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='type'>(<tt>#to_proc</tt>)</span>
+      
+      
+        <span class='name'>finder</span>
+      
+      
+        <em class="default">(defaults to: <tt>lambda { |id| namespace[id] }</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>
+(optional) for cases where `Gadget[1]` isn&#8217;t the method of finding.
+You can for example use an ActiveRecord model and pass in lambda { |id|
+Gadget.find(id) }.
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+    <h3>Options Hash (<tt>options</tt>):</h3>
+    <ul class="option">
+      
+        <li>
+          <span class="type">(<tt>Symbol</tt>)</span>
+          <span class="name">:q</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+keywords e.g. `apple iphone 3g`
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Symbol</tt>)</span>
+          <span class="name">:field1</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+any field you indexed and a value
+</p>
+</div>
+        </tr>
+      
+        <li>
+          <span class="type">(<tt>Symbol</tt>)</span>
+          <span class="name">:fuzzy</span>
+          <span class="default">
+            
+              <span class="na">N/A</span>
+            
+          </span>
+          &mdash;<div class='inline'><p>
+hash of :key => :value pairs
+</p>
+</div>
+        </tr>
+      
+    </ul>
+  
+    
+    
+<h3>Returns:</h3>
+<ul class="return">
+  
+    <li>
+      
+        <span class='type'></span>
+      
+      
+      
+      
+        
+        <div class='inline'><p>
+Lunar::ResultSet an Enumerable object.
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/lunar.rb', line 84</span>
+
+<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id search'>search</span><span class='lparen'>(</span><span class='id namespace'>namespace</span><span class='comma'>,</span> <span class='id options'>options</span><span class='comma'>,</span> <span class='id finder'>finder</span> <span class='op'>=</span> <span class='id lambda'>lambda</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id id'>id</span><span class='op'>|</span> <span class='id namespace'>namespace</span><span class='lbracket'>[</span><span class='id id'>id</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='id ns'>ns</span> <span class='op'>=</span> <span class='id nest'>nest</span><span class='lbracket'>[</span><span class='id namespace'>namespace</span><span class='rbracket'>]</span>
+
+  <span class='id sets'>sets</span> <span class='op'>=</span>
+    <span class='id options'>options</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id key'>key</span><span class='comma'>,</span> <span class='id value'>value</span><span class='op'>|</span>
+      <span class='kw'>if</span> <span class='id value'>value</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Range</span><span class='rparen'>)</span>
+        <span class='const'>RangeMatches</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id nest'>nest</span><span class='lbracket'>[</span><span class='id namespace'>namespace</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id key'>key</span><span class='comma'>,</span> <span class='id value'>value</span><span class='rparen'>)</span><span class='period'>.</span><span class='id distkey'>distkey</span>
+      <span class='kw'>elsif</span> <span class='id key'>key</span> <span class='op'>==</span> <span class='symbol'>:fuzzy</span>
+        <span class='id value'>value</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id fuzzy_key'>fuzzy_key</span><span class='comma'>,</span> <span class='id fuzzy_value'>fuzzy_value</span><span class='op'>|</span>
+          <span class='const'>FuzzyMatches</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id nest'>nest</span><span class='lbracket'>[</span><span class='id namespace'>namespace</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id fuzzy_key'>fuzzy_key</span><span class='comma'>,</span> <span class='id fuzzy_value'>fuzzy_value</span><span class='rparen'>)</span><span class='period'>.</span><span class='id distkey'>distkey</span>
+        <span class='kw'>end</span>
+      <span class='kw'>else</span>
+        <span class='const'>KeywordMatches</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id nest'>nest</span><span class='lbracket'>[</span><span class='id namespace'>namespace</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id key'>key</span><span class='comma'>,</span> <span class='id value'>value</span><span class='rparen'>)</span><span class='period'>.</span><span class='id distkey'>distkey</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+  <span class='id sets'>sets</span> <span class='op'>=</span> <span class='id sets'>sets</span><span class='period'>.</span><span class='id flatten'>flatten</span>
+
+  <span class='id key'>key</span> <span class='op'>=</span>
+    <span class='kw'>if</span> <span class='id sets'>sets</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>==</span> <span class='int'>1</span>
+      <span class='id sets'>sets</span><span class='period'>.</span><span class='id first'>first</span>
+    <span class='kw'>else</span>
+      <span class='id ns'>ns</span><span class='lbracket'>[</span><span class='id options'>options</span><span class='period'>.</span><span class='id hash'>hash</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id zinterstore'>zinterstore</span> <span class='id sets'>sets</span>
+      <span class='id ns'>ns</span><span class='lbracket'>[</span><span class='id options'>options</span><span class='period'>.</span><span class='id hash'>hash</span><span class='rbracket'>]</span>
+    <span class='kw'>end</span>
+
+  <span class='const'>ResultSet</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id key'>key</span><span class='comma'>,</span> <span class='id ns'>ns</span><span class='comma'>,</span> <span class='id finder'>finder</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri May 21 06:56:23 2010 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
+  0.5.4 (ruby-1.9.1).
+</div>
+
+  </body>
+</html>
