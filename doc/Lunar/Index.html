@@ -324,7 +324,9 @@ Deletes everything related to an existing document given its `id`.
 
   
     <span class="summary_desc"><div class='inline'><p>
-Get / Set the id of the document @example:.
+Get / Set the id of the document The `id` is used for all other keys to
+define the structure of the keys, therefore it&#8217;s imperative that you
+set it first.
 </p>
 </div></span>
   
@@ -878,31 +880,35 @@ the document&#8217;s id.
 </p><div class="docstring">
   <div class="discussion">
     <p>
-Get / Set the id of the document @example:
-</p>
-<pre class="code">
-  <span class='comment'># Wrong usage:
-</span>  <span class='const'>Lunar</span><span class='period'>.</span><span class='id index'>index</span> <span class='symbol'>:Gadget</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
-    <span class='id i'>i</span><span class='period'>.</span><span class='id text'>text</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>iPad</span><span class='tstring_end'>'</span></span>
-  <span class='kw'>end</span>
-  <span class='comment'># =&gt; raise MissingID
-</span>
-  <span class='comment'># Correct usage:
-</span>  <span class='const'>Lunar</span><span class='period'>.</span><span class='id index'>index</span> <span class='symbol'>:Gadget</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
-    <span class='id i'>i</span><span class='period'>.</span><span class='id id'>id</span> <span class='int'>1001</span> <span class='comment'># this appears before anything.
-</span>    <span class='id i'>i</span><span class='period'>.</span><span class='id text'>text</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>iPad</span><span class='tstring_end'>'</span></span> <span class='comment'># ok now you can set other fields.
-</span>  <span class='kw'>end</span>
-</pre>
-<p>
-The `id` is used for all other keys to define the structure of the keys,
-therefore it&#8217;s imperative that you set it first.
+Get / Set the id of the document The `id` is used for all other keys to
+define the structure of the keys, therefore it&#8217;s imperative that you
+set it first.
 </p>
 
 
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  
+  <div class="examples">
+    <h3>Examples:</h3>
+    
+      <h4><div class='inline'></div></h4>
+      <pre class="example code">
+<span class='comment'># Wrong usage:
+</span><span class='const'>Lunar</span><span class='period'>.</span><span class='id index'>index</span> <span class='symbol'>:Gadget</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
+  <span class='id i'>i</span><span class='period'>.</span><span class='id text'>text</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>iPad</span><span class='tstring_end'>'</span></span>
+<span class='kw'>end</span>
+<span class='comment'># =&gt; raise MissingID
+</span>
+<span class='comment'># Correct usage:
+</span><span class='const'>Lunar</span><span class='period'>.</span><span class='id index'>index</span> <span class='symbol'>:Gadget</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
+  <span class='id i'>i</span><span class='period'>.</span><span class='id id'>id</span> <span class='int'>1001</span> <span class='comment'># this appears before anything.
+</span>  <span class='id i'>i</span><span class='period'>.</span><span class='id text'>text</span> <span class='symbol'>:name</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>iPad</span><span class='tstring_end'>'</span></span> <span class='comment'># ok now you can set other fields.
+</span><span class='kw'>end</span></pre>
+    
+  </div>
+<h3>Parameters:</h3>
 <ul class="param">
   
     <li>
@@ -1381,7 +1387,7 @@ all the metaphones added for the document.
 </div>
     
     <div id="footer">
-  Generated on Fri May 21 06:56:24 2010 by 
+  Generated on Fri May 21 10:28:01 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.5.4 (ruby-1.9.1).
 </div>

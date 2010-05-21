@@ -80,7 +80,26 @@
 </dl>
 <div class="clear"></div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
 
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <h3>Examples:</h3>
+    
+      <h4><div class='inline'></div></h4>
+      <pre class="example code">
+<span class='id expected'>expected</span> <span class='op'>=</span> <span class='qwords_beg'>%w(</span><span class='tstring_content'>a</span><span class='words_sep'> </span><span class='tstring_content'>ab</span><span class='words_sep'> </span><span class='tstring_content'>abr</span><span class='words_sep'> </span><span class='tstring_content'>abra</span><span class='words_sep'> </span><span class='tstring_content'>abrah</span><span class='words_sep'> </span><span class='tstring_content'>abraha</span><span class='words_sep'> </span><span class='tstring_content'>abraham</span><span class='words_sep'>)</span>
+<span class='const'>FuzzyWord</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Abraham</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id partials'>partials</span> <span class='op'>==</span> <span class='id expected'>expected</span>
+<span class='comment'># =&gt; true</span></pre>
+    
+  </div>
+
+</div>
 
   
 
@@ -132,12 +151,12 @@
       <pre class="lines">
 
 
-3
-4
-5</pre>
+11
+12
+13</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/lunar/fuzzy_word.rb', line 3</span>
+      <pre class="code"><span class="info file"># File 'lib/lunar/fuzzy_word.rb', line 11</span>
 
 <span class='kw'>def</span> <span class='id partials'>partials</span>
   <span class='lparen'>(</span><span class='int'>1</span><span class='op'>..</span><span class='id length'>length</span><span class='rparen'>)</span><span class='period'>.</span><span class='id map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='id i'>i</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id downcase'>downcase</span> <span class='rbrace'>}</span>
@@ -152,7 +171,7 @@
 </div>
     
     <div id="footer">
-  Generated on Fri May 21 06:56:24 2010 by 
+  Generated on Fri May 21 10:25:34 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.5.4 (ruby-1.9.1).
 </div>

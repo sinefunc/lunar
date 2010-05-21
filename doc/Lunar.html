@@ -63,7 +63,7 @@
   
     <dt class="r2 last">Defined in:</dt>
     <dd class="r2 last">lib/lunar.rb<span class="defines">,<br />
-  lib/lunar/index.rb,<br /> lib/lunar/words.rb,<br /> lib/lunar/scoring.rb,<br /> lib/lunar/stopwords.rb,<br /> lib/lunar/fuzzy_word.rb,<br /> lib/lunar/connection.rb,<br /> lib/lunar/result_set.rb,<br /> lib/lunar/lunar_nest.rb,<br /> lib/lunar/range_matches.rb,<br /> lib/lunar/fuzzy_matches.rb,<br /> lib/lunar/keyword_matches.rb</span>
+  lib/lunar/words.rb,<br /> lib/lunar/index.rb,<br /> lib/lunar/scoring.rb,<br /> lib/lunar/stopwords.rb,<br /> lib/lunar/lunar_nest.rb,<br /> lib/lunar/fuzzy_word.rb,<br /> lib/lunar/result_set.rb,<br /> lib/lunar/connection.rb,<br /> lib/lunar/range_matches.rb,<br /> lib/lunar/fuzzy_matches.rb,<br /> lib/lunar/keyword_matches.rb</span>
 </dd>
   
 </dl>
@@ -73,11 +73,11 @@
 <p class="children">
    
     
-      <strong class="modules">Modules:</strong> <a href="Lunar/Connection.html" title="Lunar::Connection (module)">Connection</a>, <a href="Lunar/Stopwords.html" title="Lunar::Stopwords (module)">Stopwords</a>
+      <strong class="modules">Modules:</strong> <a href="Lunar/Connection.html" title="Lunar::Connection (module)">Connection</a>
     
    
     
-      <strong class="classes">Classes:</strong> <a href="Lunar/FuzzyWord.html" title="Lunar::FuzzyWord (class)">FuzzyWord</a>, <a href="Lunar/Index.html" title="Lunar::Index (class)">Index</a>, <a href="Lunar/ResultSet.html" title="Lunar::ResultSet (class)">ResultSet</a>
+      <strong class="classes">Classes:</strong> <a href="Lunar/Index.html" title="Lunar::Index (class)">Index</a>, <a href="Lunar/ResultSet.html" title="Lunar::ResultSet (class)">ResultSet</a>
     
   
 </p>
@@ -296,26 +296,29 @@ the id of the document to delete.
 Index any document using a namespace. The namespace can be a class, or a
 plain Symbol/String.
 </p>
-<p>
-@example:
-</p>
-<pre class="code">
-  <span class='const'>Lunar</span><span class='period'>.</span><span class='id index'>index</span> <span class='const'>Gadget</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
-    <span class='id i'>i</span><span class='period'>.</span><span class='id text'>text</span>  <span class='symbol'>:name</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>iphone 3gs</span><span class='tstring_end'>'</span></span>
-    <span class='id i'>i</span><span class='period'>.</span><span class='id text'>text</span>  <span class='symbol'>:tags</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>mobile apple smartphone</span><span class='tstring_end'>'</span></span>
-
-    <span class='id i'>i</span><span class='period'>.</span><span class='id number'>number</span> <span class='symbol'>:price</span><span class='comma'>,</span> <span class='int'>200</span>
-    <span class='id i'>i</span><span class='period'>.</span><span class='id number'>number</span> <span class='symbol'>:rating</span><span class='comma'>,</span> <span class='float'>25.5</span>
-
-    <span class='id i'>i</span><span class='period'>.</span><span class='id sortable'>sortable</span> <span class='symbol'>:votes</span><span class='comma'>,</span> <span class='int'>50</span>
-  <span class='kw'>end</span>
-</pre>
 
 
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  
+  <div class="examples">
+    <h3>Examples:</h3>
+    
+      <h4><div class='inline'></div></h4>
+      <pre class="example code">
+<span class='const'>Lunar</span><span class='period'>.</span><span class='id index'>index</span> <span class='const'>Gadget</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id i'>i</span><span class='op'>|</span>
+  <span class='id i'>i</span><span class='period'>.</span><span class='id text'>text</span>  <span class='symbol'>:name</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>iphone 3gs</span><span class='tstring_end'>'</span></span>
+  <span class='id i'>i</span><span class='period'>.</span><span class='id text'>text</span>  <span class='symbol'>:tags</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>mobile apple smartphone</span><span class='tstring_end'>'</span></span>
+
+  <span class='id i'>i</span><span class='period'>.</span><span class='id number'>number</span> <span class='symbol'>:price</span><span class='comma'>,</span> <span class='int'>200</span>
+  <span class='id i'>i</span><span class='period'>.</span><span class='id number'>number</span> <span class='symbol'>:rating</span><span class='comma'>,</span> <span class='float'>25.5</span>
+
+  <span class='id i'>i</span><span class='period'>.</span><span class='id sortable'>sortable</span> <span class='symbol'>:votes</span><span class='comma'>,</span> <span class='int'>50</span>
+<span class='kw'>end</span></pre>
+    
+  </div>
+<h3>Parameters:</h3>
 <ul class="param">
   
     <li>
@@ -415,31 +418,34 @@ returns the yielded Lunar::Index.
     <p>
 Search for a document, scoped under a namespace.
 </p>
-<p>
-@example:
-</p>
-<pre class="code">
-  <span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Gadget</span><span class='comma'>,</span> <span class='symbol'>:q</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apple</span><span class='tstring_end'>&quot;</span></span>
-  <span class='comment'># returns all gadgets with `text` apple.
-</span>
-  <span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Gadget</span><span class='comma'>,</span> <span class='symbol'>:q</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apple</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:description</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cool</span><span class='tstring_end'>&quot;</span></span>
-  <span class='comment'># returns all gadgets with `text` apple and description:cool
-</span>
-  <span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Gadget</span><span class='comma'>,</span> <span class='symbol'>:q</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>phone</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:price</span> <span class='op'>=&gt;</span> <span class='int'>200</span><span class='op'>..</span><span class='int'>250</span>
-  <span class='comment'># returns all gadgets with `text` phone priced between 200 to 250
-</span>
-  <span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Customer</span><span class='comma'>,</span> <span class='symbol'>:fuzzy</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ad</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
-  <span class='comment'># returns all customers with their first / last name beginning with 'ad'
-</span>
-  <span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Customer</span><span class='comma'>,</span> <span class='symbol'>:fuzzy</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ad</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span> <span class='symbol'>:age</span> <span class='op'>=&gt;</span> <span class='int'>20</span><span class='op'>..</span><span class='int'>25</span>
-  <span class='comment'># returns all customers with name starting with 'ad' aged 20 to 25.
-</span></pre>
 
 
   </div>
 </div>
 <div class="tags">
-  <h3>Parameters:</h3>
+  
+  <div class="examples">
+    <h3>Examples:</h3>
+    
+      <h4><div class='inline'></div></h4>
+      <pre class="example code">
+<span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Gadget</span><span class='comma'>,</span> <span class='symbol'>:q</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apple</span><span class='tstring_end'>&quot;</span></span>
+<span class='comment'># returns all gadgets with `text` apple.
+</span>
+<span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Gadget</span><span class='comma'>,</span> <span class='symbol'>:q</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>apple</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:description</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cool</span><span class='tstring_end'>&quot;</span></span>
+<span class='comment'># returns all gadgets with `text` apple and description:cool
+</span>
+<span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Gadget</span><span class='comma'>,</span> <span class='symbol'>:q</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>phone</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:price</span> <span class='op'>=&gt;</span> <span class='int'>200</span><span class='op'>..</span><span class='int'>250</span>
+<span class='comment'># returns all gadgets with `text` phone priced between 200 to 250
+</span>
+<span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Customer</span><span class='comma'>,</span> <span class='symbol'>:fuzzy</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ad</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span>
+<span class='comment'># returns all customers with their first / last name beginning with 'ad'
+</span>
+<span class='const'>Lunar</span><span class='period'>.</span><span class='id search'>search</span> <span class='const'>Customer</span><span class='comma'>,</span> <span class='symbol'>:fuzzy</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>ad</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span><span class='comma'>,</span> <span class='symbol'>:age</span> <span class='op'>=&gt;</span> <span class='int'>20</span><span class='op'>..</span><span class='int'>25</span>
+<span class='comment'># returns all customers with name starting with 'ad' aged 20 to 25.</span></pre>
+    
+  </div>
+<h3>Parameters:</h3>
 <ul class="param">
   
     <li>
@@ -584,60 +590,16 @@ Lunar::ResultSet an Enumerable object.
 86
 87
 88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111</pre>
+89</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/lunar.rb', line 84</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id search'>search</span><span class='lparen'>(</span><span class='id namespace'>namespace</span><span class='comma'>,</span> <span class='id options'>options</span><span class='comma'>,</span> <span class='id finder'>finder</span> <span class='op'>=</span> <span class='id lambda'>lambda</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id id'>id</span><span class='op'>|</span> <span class='id namespace'>namespace</span><span class='lbracket'>[</span><span class='id id'>id</span><span class='rbracket'>]</span> <span class='rbrace'>}</span><span class='rparen'>)</span>
-  <span class='id ns'>ns</span> <span class='op'>=</span> <span class='id nest'>nest</span><span class='lbracket'>[</span><span class='id namespace'>namespace</span><span class='rbracket'>]</span>
+  <span class='id sets'>sets</span> <span class='op'>=</span> <span class='id find_and_combine_sorted_sets_for'>find_and_combine_sorted_sets_for</span><span class='lparen'>(</span><span class='id namespace'>namespace</span><span class='comma'>,</span> <span class='id options'>options</span><span class='rparen'>)</span>
+  <span class='id key'>key</span>  <span class='op'>=</span> <span class='id try_intersection_of_sorted_sets'>try_intersection_of_sorted_sets</span><span class='lparen'>(</span><span class='id namespace'>namespace</span><span class='comma'>,</span> <span class='id sets'>sets</span><span class='rparen'>)</span>
 
-  <span class='id sets'>sets</span> <span class='op'>=</span>
-    <span class='id options'>options</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id key'>key</span><span class='comma'>,</span> <span class='id value'>value</span><span class='op'>|</span>
-      <span class='kw'>if</span> <span class='id value'>value</span><span class='period'>.</span><span class='id is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Range</span><span class='rparen'>)</span>
-        <span class='const'>RangeMatches</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id nest'>nest</span><span class='lbracket'>[</span><span class='id namespace'>namespace</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id key'>key</span><span class='comma'>,</span> <span class='id value'>value</span><span class='rparen'>)</span><span class='period'>.</span><span class='id distkey'>distkey</span>
-      <span class='kw'>elsif</span> <span class='id key'>key</span> <span class='op'>==</span> <span class='symbol'>:fuzzy</span>
-        <span class='id value'>value</span><span class='period'>.</span><span class='id map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id fuzzy_key'>fuzzy_key</span><span class='comma'>,</span> <span class='id fuzzy_value'>fuzzy_value</span><span class='op'>|</span>
-          <span class='const'>FuzzyMatches</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id nest'>nest</span><span class='lbracket'>[</span><span class='id namespace'>namespace</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id fuzzy_key'>fuzzy_key</span><span class='comma'>,</span> <span class='id fuzzy_value'>fuzzy_value</span><span class='rparen'>)</span><span class='period'>.</span><span class='id distkey'>distkey</span>
-        <span class='kw'>end</span>
-      <span class='kw'>else</span>
-        <span class='const'>KeywordMatches</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id nest'>nest</span><span class='lbracket'>[</span><span class='id namespace'>namespace</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id key'>key</span><span class='comma'>,</span> <span class='id value'>value</span><span class='rparen'>)</span><span class='period'>.</span><span class='id distkey'>distkey</span>
-      <span class='kw'>end</span>
-    <span class='kw'>end</span>
-
-  <span class='id sets'>sets</span> <span class='op'>=</span> <span class='id sets'>sets</span><span class='period'>.</span><span class='id flatten'>flatten</span>
-
-  <span class='id key'>key</span> <span class='op'>=</span>
-    <span class='kw'>if</span> <span class='id sets'>sets</span><span class='period'>.</span><span class='id size'>size</span> <span class='op'>==</span> <span class='int'>1</span>
-      <span class='id sets'>sets</span><span class='period'>.</span><span class='id first'>first</span>
-    <span class='kw'>else</span>
-      <span class='id ns'>ns</span><span class='lbracket'>[</span><span class='id options'>options</span><span class='period'>.</span><span class='id hash'>hash</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id zinterstore'>zinterstore</span> <span class='id sets'>sets</span>
-      <span class='id ns'>ns</span><span class='lbracket'>[</span><span class='id options'>options</span><span class='period'>.</span><span class='id hash'>hash</span><span class='rbracket'>]</span>
-    <span class='kw'>end</span>
-
-  <span class='const'>ResultSet</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id key'>key</span><span class='comma'>,</span> <span class='id ns'>ns</span><span class='comma'>,</span> <span class='id finder'>finder</span><span class='rparen'>)</span>
+  <span class='const'>ResultSet</span><span class='period'>.</span><span class='id new'>new</span><span class='lparen'>(</span><span class='id key'>key</span><span class='comma'>,</span> <span class='id nest'>nest</span><span class='lbracket'>[</span><span class='id namespace'>namespace</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id finder'>finder</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -649,7 +611,7 @@ Lunar::ResultSet an Enumerable object.
 </div>
     
     <div id="footer">
-  Generated on Fri May 21 06:56:23 2010 by 
+  Generated on Fri May 21 10:28:01 2010 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool">yard</a>
   0.5.4 (ruby-1.9.1).
 </div>
