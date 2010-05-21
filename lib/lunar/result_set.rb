@@ -89,8 +89,13 @@ module Lunar
     # @see http://code.google.com/p/redis/wiki/SortCommand
     def sort(opts = {})
       return [] if not distkey
-
+      
       opts[:by] = sortables[opts[:by]]  if opts[:by]
+
+      if opts[:start] && opts[:limit]
+        opts[:limit] = [opts[:start], opts[:limit]]
+      end
+
       objects(distkey.sort(opts))
     end
 
