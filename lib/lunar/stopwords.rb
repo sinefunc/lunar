@@ -1,4 +1,6 @@
 module Lunar
+  # @private Internally used by {Lunar::Words} to filter out
+  # common words like an, the, etc.
   module Stopwords
     def include?(word)
       stopwords.include?(word)

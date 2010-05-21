@@ -31,7 +31,7 @@ module Lunar
     end
 
     # Get / Set the id of the document
-    # @example:
+    # @example
     #
     #   # Wrong usage:
     #   Lunar.index :Gadget do |i|

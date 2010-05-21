@@ -1,4 +1,15 @@
 module Lunar
+  # This is actually taken from Ohm (http://ohm.keyvalue.org). The Lunar module 
+  # extends this to make the API easier to use.
+  #
+  #   Lunar.connect(:host => "127.0.0.1", :port => "6380")
+  #   Lunar.redis
+  #   # basically returns Redis.new(:host => "127.0.0.1", :port => "6380")
+  #
+  #   # If you don't provide any connection, it assumes you are referring
+  #   # to the default redis host / port (127.0.0.1 on port 6379)
+  #   Lunar.redis
+  #
   module Connection
     # Connect to a redis database.
     #

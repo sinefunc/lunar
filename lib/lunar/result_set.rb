@@ -2,8 +2,6 @@ module Lunar
   # This wraps a Lunar search result set. You can do all the
   # expected operations with an Enumerable.
   #
-  # @example:
-  #
   #   results = Lunar.search(Gadget, :q => "Apple Macbook Pro")
   #   results.class == Lunar::ResultSet
   #   # => true
@@ -11,8 +9,8 @@ module Lunar
   #   results.kind_of?(Enumerable)
   #   # => true
   #
-  # `sort` and `sort_by` commands are available and directly calls
-  # the Redis SORT command.
+  # {Lunar::ResultSet#sort} and {Lunar::ResultSet#sort_by} commands are 
+  # available and directly calls the Redis SORT command.
   #
   #   results = Lunar.search(Gadget, :q => "Apple Macbook Pro")
   #   results.sort(:by => :name, :order => "ALPHA")
@@ -40,7 +38,7 @@ module Lunar
 
     # Provides syntatic sugar for `sort`.
     #
-    # @example:
+    # @example
     #
     #   results = Lunar.search(Gadget, :q => "apple")
     #   results.sort(:by => :votes)
@@ -60,7 +58,7 @@ module Lunar
     # Gives the ability to sort the search results via a `sortable` field
     # in your index.
     #
-    # @example:
+    # @example
     #
     #   Lunar.index Gadget do |i|
     #     i.id 1001

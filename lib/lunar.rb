@@ -23,7 +23,7 @@ module Lunar
   # Index any document using a namespace. The namespace can
   # be a class, or a plain Symbol/String.
   #
-  # @example:
+  # @example
   #
   #   Lunar.index Gadget do |i|
   #     i.text  :name, 'iphone 3gs'
@@ -54,7 +54,7 @@ module Lunar
 
   # Search for a document, scoped under a namespace.
   #
-  # @example:
+  # @example
   #
   #   Lunar.search Gadget, :q => "apple"
   #   # returns all gadgets with `text` apple.
@@ -82,32 +82,10 @@ module Lunar
   #
   # @return Lunar::ResultSet an Enumerable object.
   def self.search(namespace, options, finder = lambda { |id| namespace[id] })
-    ns = nest[namespace]
+    sets = find_and_combine_sorted_sets_for(namespace, options)
+    key  = try_intersection_of_sorted_sets(namespace, sets)
 
-    sets =
-      options.map do |key, value|
-        if value.is_a?(Range)
-          RangeMatches.new(nest[namespace], key, value).distkey
-        elsif key == :fuzzy
-          value.map do |fuzzy_key, fuzzy_value|
-            FuzzyMatches.new(nest[namespace], fuzzy_key, fuzzy_value).distkey
-          end
-        else
-          KeywordMatches.new(nest[namespace], key, value).distkey
-        end
-      end
-
-    sets = sets.flatten
-
-    key =
-      if sets.size == 1
-        sets.first
-      else
-        ns[options.hash].zinterstore sets
-        ns[options.hash]
-      end
-
-    ResultSet.new(key, ns, finder)
+    ResultSet.new(key, nest[namespace], finder)
   end
 
   # @private internally used for determining the metaphone of a word.
@@ -123,5 +101,32 @@ module Lunar
   # @private convenience method for getting a scoped Nest.
   def self.nest
     LunarNest.new(:Lunar, redis)
+  end
+
+private
+  def self.find_and_combine_sorted_sets_for(namespace, options)
+    options.inject([]) do |sets, (key, value)|
+      if value.is_a?(Range)
+        sets << RangeMatches.new(nest[namespace], key, value).distkey
+      elsif key == :fuzzy
+        fuzzy_matches = value.map { |fuzzy_key, fuzzy_value|
+          FuzzyMatches.new(nest[namespace], fuzzy_key, fuzzy_value).distkey
+        }
+        sets.push(*fuzzy_matches)
+      else
+        sets << KeywordMatches.new(nest[namespace], key, value).distkey
+      end
+
+      sets
+    end
+  end
+
+  def self.try_intersection_of_sorted_sets(namespace, sets)
+    if sets.size == 1
+      sets.first
+    else
+      nest[namespace][options.hash].zinterstore sets
+      nest[namespace][options.hash]
+    end
   end
 end
