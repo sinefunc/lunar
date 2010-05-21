@@ -76,6 +76,14 @@ class TestLunar < Test::Unit::TestCase
       assert_equal [], q(:q => "ericson", :price => 150..200)
     end
 
+    test "searching combinations of empty strings" do
+      assert_equal %w{1001}, q(:q => 'apple', :tags => 'mobile', :title => "")
+      assert_equal %w{1001}, q(:q => 'apple', :tags => 'smartphone', :title => "")
+      assert_equal %w{1001}, q(:q => 'apple', :tags => 'apple', :title => "")
+
+      assert_equal %w{1001 1002 1003}, q(:q => 'mobile', :tags => 'smartphone', :title => "")
+    end
+
     test "sorting empty result sets" do
       assert_equal [], Lunar.search(Gadget, :q => "ericson").sort(:by => :price)
     end

@@ -94,6 +94,12 @@ module Lunar
       objects(distkey.sort(opts))
     end
 
+    def size
+      return 0 if not distkey
+
+      distkey.zcard
+    end
+
   protected
     def objects(ids)
       ids.map(&@finder)

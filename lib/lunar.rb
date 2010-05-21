@@ -110,11 +110,15 @@ private
         sets << RangeMatches.new(nest[namespace], key, value).distkey
       elsif key == :fuzzy
         fuzzy_matches = value.map { |fuzzy_key, fuzzy_value|
-          FuzzyMatches.new(nest[namespace], fuzzy_key, fuzzy_value).distkey
+          unless fuzzy_value.to_s.empty?
+            FuzzyMatches.new(nest[namespace], fuzzy_key, fuzzy_value).distkey
+          end
         }
-        sets.push(*fuzzy_matches)
+        sets.push(*fuzzy_matches.compact)
       else
-        sets << KeywordMatches.new(nest[namespace], key, value).distkey
+        unless value.to_s.empty?
+          sets << KeywordMatches.new(nest[namespace], key, value).distkey
+        end
       end
 
       sets
