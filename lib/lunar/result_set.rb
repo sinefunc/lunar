@@ -33,6 +33,8 @@ module Lunar
     end
 
     def each
+      return if not distkey
+
       objects(distkey.zrange(0, -1)).each { |e| yield e }
     end
 
@@ -86,6 +88,8 @@ module Lunar
     # @return [Array] Array of objects as defined by the `finder`.
     # @see http://code.google.com/p/redis/wiki/SortCommand
     def sort(opts = {})
+      return [] if not distkey
+
       opts[:by] = sortables[opts[:by]]  if opts[:by]
       objects(distkey.sort(opts))
     end

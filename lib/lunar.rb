@@ -4,7 +4,7 @@ require 'nest'
 require 'text'
 
 module Lunar
-  VERSION = '0.5.1'
+  VERSION = '0.5.2'
 
   autoload :Connection,     "lunar/connection"
   autoload :LunarNest,      "lunar/lunar_nest"
@@ -83,7 +83,7 @@ module Lunar
   # @return Lunar::ResultSet an Enumerable object.
   def self.search(namespace, options, finder = lambda { |id| namespace[id] })
     sets = find_and_combine_sorted_sets_for(namespace, options)
-    key  = try_intersection_of_sorted_sets(namespace, sets)
+    key  = try_intersection_of_sorted_sets(namespace, sets, options)
 
     ResultSet.new(key, nest[namespace], finder)
   end
@@ -121,7 +121,9 @@ private
     end
   end
 
-  def self.try_intersection_of_sorted_sets(namespace, sets)
+  def self.try_intersection_of_sorted_sets(namespace, sets, options)
+    return if sets.empty?
+
     if sets.size == 1
       sets.first
     else

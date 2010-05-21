@@ -67,6 +67,19 @@ class TestLunar < Test::Unit::TestCase
       assert_equal %w{1003}, q(:q => '9000')
     end
 
+    test "searching non-existent words" do
+      assert_equal [], q(:q => "ericson")
+      assert_equal [], q(:q => "ericson", :title => "apple")
+      assert_equal [], q(:q => "ericson", :description => "nokia")
+      assert_equal [], q(:q => "ericson", :description => "FooBar")
+      assert_equal [], q(:q => "ericson", :fuzzy => { :code => "a" })
+      assert_equal [], q(:q => "ericson", :price => 150..200)
+    end
+
+    test "sorting empty result sets" do
+      assert_equal [], Lunar.search(Gadget, :q => "ericson").sort(:by => :price)
+    end
+
     test "fulltext searching with key value pairs" do
       assert_equal %w{1001}, q(:q => 'apple', :tags => 'mobile')
       assert_equal %w{1001}, q(:q => 'apple', :tags => 'smartphone')

@@ -11,6 +11,8 @@ module Lunar
     end
 
     def distkey
+      return if keys.flatten.empty?
+
       nest[{ att => value }.hash].tap do |dk|
         dk.zunionstore keys.flatten
       end
