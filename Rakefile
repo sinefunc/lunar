@@ -6,7 +6,7 @@ begin
   Jeweler::Tasks.new do |gem|
     gem.name = "lunar"
     gem.summary = %Q{A redis based full text search engine}
-    gem.description = %Q{Features full text searching via metaphones, range querying for numbers, fuzzy searching and sorting based on customer fields}
+    gem.description = %Q{Features full text searching via metaphones, range querying for numbers, fuzzy searching and sorting based on custom fields}
     gem.email = "cyx.ucron@gmail.com"
     gem.homepage = "http://github.com/sinefunc/lunar"
     gem.authors = ["Cyril David"]
