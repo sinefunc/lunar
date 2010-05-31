@@ -15,7 +15,7 @@ class TestLunar < Test::Unit::TestCase
         i.text   :tags, 'mobile smartphone apple'
         i.number :price, 200
         i.number :score, 35.5
-        i.fuzzy  :code, 'apple iphone mobile'
+        i.fuzzy  :code, 'apple iphone mobile tmobile'
 
         i.sortable :price, 200
         i.sortable :score, 35.5
@@ -164,6 +164,8 @@ class TestLunar < Test::Unit::TestCase
     end
 
     test "fuzzy matching on code apple iphone" do
+      assert_equal %w{1001}, q(:fuzzy => { :code => 'T' })
+
       assert_equal %w{1001}, q(:fuzzy => { :code => 'a' })
       assert_equal %w{1001}, q(:fuzzy => { :code => 'ap' })
       assert_equal %w{1001}, q(:fuzzy => { :code => 'app' })

@@ -11,6 +11,8 @@ module Lunar
     end
 
     def distkey
+      return if keys.empty?
+
       nest[{ att => value }.hash].tap do |dk|
         dk.zunionstore keys.flatten
       end
@@ -18,7 +20,7 @@ module Lunar
 
   protected
     def keys
-      Words.new(value).map { |w| nest[:Fuzzies][att][Lunar.encode(w)] }
+      Words.new(value, false).map { |w| nest[:Fuzzies][att][Lunar.encode(w)] }
     end
   end
 end

@@ -6,11 +6,12 @@ module Lunar
   class Words < Array
     SEPARATOR = /\s+/
 
-    def initialize(str)
+    def initialize(str, stopwords = true)
       words = str.split(SEPARATOR).
         reject { |w| w.to_s.strip.empty? }.
-        map    { |w| sanitize(w) }.
-        reject { |w| Stopwords.include?(w) }
+        map    { |w| sanitize(w) }
+
+      words.reject! { |w| Stopwords.include?(w) }  if stopwords
 
       super(words)
     end
