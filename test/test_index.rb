@@ -93,6 +93,10 @@ class IndexTest < Test::Unit::TestCase
   end
 
   describe "indexing numbers" do
+    def numbers
+      Lunar.nest[:Gadget][:Numbers]
+    end
+
     test "works for integers and floats" do
       Lunar.index :Gadget do |i|
         i.id 1001
@@ -100,8 +104,25 @@ class IndexTest < Test::Unit::TestCase
         i.number :score, 25.5
       end
 
-      assert_equal '200',  Lunar.nest[:Gadget][:Numbers][:price].zscore(1001)
-      assert_equal '25.5', Lunar.nest[:Gadget][:Numbers][:score].zscore(1001)
+      assert_equal '200',  numbers[:price].zscore(1001)
+      assert_equal '25.5', numbers[:score].zscore(1001)
+
+      assert_equal '1', numbers[:price]["200"].zscore(1001)
+    end
+    
+    test "reindexing" do
+      Lunar.index :Gadget do |i|
+        i.id 1001
+        i.number :price, 200
+      end
+
+      Lunar.index :Gadget do |i|
+        i.id 1001
+        i.number :price, 150
+      end
+
+      assert_nil numbers[:price]["200"].zrank(1001)
+      assert_equal '1', numbers[:price]["150"].zscore(1001)
     end
 
     test "allows deletion" do
@@ -113,8 +134,9 @@ class IndexTest < Test::Unit::TestCase
 
       Lunar.delete :Gadget, 1001
 
-      assert_nil Lunar.nest[:Gadget][:Numbers][:price].zrank(1001)
-      assert_nil Lunar.nest[:Gadget][:Numbers][:score].zrank(1001)
+      assert_nil numbers[:price].zrank(1001)
+      assert_nil numbers[:score].zrank(1001)
+      assert_nil numbers[:price]["200"].zrank(1001)
     end
   end
 

@@ -4,7 +4,7 @@ require 'nest'
 require 'text'
 
 module Lunar
-  VERSION = '0.5.3'
+  VERSION = '0.5.4'
 
   autoload :Connection,     "lunar/connection"
   autoload :LunarNest,      "lunar/lunar_nest"
@@ -13,6 +13,7 @@ module Lunar
   autoload :Words,          "lunar/words"
   autoload :Stopwords,      "lunar/stopwords"
   autoload :FuzzyWord,      "lunar/fuzzy_word"
+  autoload :NumberMatches,  "lunar/number_matches"
   autoload :KeywordMatches, "lunar/keyword_matches"
   autoload :RangeMatches,   "lunar/range_matches"
   autoload :FuzzyMatches,   "lunar/fuzzy_matches"
@@ -115,6 +116,12 @@ private
           end
         }
         sets.push(*fuzzy_matches.compact)
+      elsif key == :numbers
+        number_matches = value.map { |num_key, num_value|
+          unless num_value.to_s.empty?
+            sets << NumberMatches.new(nest[namespace], num_key, num_value).distkey
+          end
+        }
       else
         unless value.to_s.empty?
           sets << KeywordMatches.new(nest[namespace], key, value).distkey

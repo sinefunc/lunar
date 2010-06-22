@@ -119,6 +119,15 @@ module Lunar
     # @return [Boolean] whether or not the value was added
     def number(att, value)
       numbers[att].zadd(value, id)
+      numbers[att][value].zadd(1, id)
+      numbers[id][att].sadd(value.to_s)
+
+      numbers[id][att].smembers.each do |number|
+        unless number.to_s == value.to_s
+          numbers[id][att].srem(number)
+          numbers[att][number].zrem(id)
+        end
+      end
     end
 
     # Adds a sortable index for `att` with `value`.
@@ -201,7 +210,10 @@ module Lunar
 
     def delete_numbers
       numbers['*'].matches.each do |key, att|
-        numbers[att].zrem(id)
+        case key.type
+        when 'zset' then numbers[att].zrem(id)
+        when 'set'  then numbers[att].del
+        end
       end
     end
 
