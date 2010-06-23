@@ -4,24 +4,30 @@ module Lunar
   class NumberMatches
     attr :nest
     attr :att
-    attr :value
+    attr :values
 
     def initialize(nest, att, value)
-      @nest, @att, @value = nest, att.to_sym, value.to_s
+      @nest   = nest
+      @att    = att
+      @values = value.kind_of?(Enumerable) ? value : [value]
     end
 
     def distkey
-      nest[:Numbers][att][value]
-      # return if keys.empty?
-
-      # nest[{ att => value }.hash].tap do |dk|
-      #   dk.zunionstore keys.flatten
-      # end
+      case keys.size
+      when 0 then nil
+      when 1 then keys.first
+      else
+        nest[{ att => values }.hash].tap do |dk|
+          dk.zunionstore keys.flatten
+        end
+      end
     end
 
   protected
-    # def keys
-    #   Words.new(value, false).map { |w| nest[:Numbers][att][w] }
-    # end
+    def keys
+      values.
+        reject { |v| v.to_s.empty? }.
+        map    { |v| nest[:Numbers][att][v] }
+    end
   end
 end

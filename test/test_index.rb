@@ -102,12 +102,17 @@ class IndexTest < Test::Unit::TestCase
         i.id 1001
         i.number :price, 200
         i.number :score, 25.5
+        i.number :category_ids, %w(100 101 102)
       end
 
       assert_equal '200',  numbers[:price].zscore(1001)
       assert_equal '25.5', numbers[:score].zscore(1001)
 
-      assert_equal '1', numbers[:price]["200"].zscore(1001)
+     assert_equal '1', numbers[:price]["200"].zscore(1001)
+    
+     assert_equal '1', numbers[:category_ids]["100"].zscore(1001)
+     assert_equal '1', numbers[:category_ids]["101"].zscore(1001)
+     assert_equal '1', numbers[:category_ids]["102"].zscore(1001)
     end
     
     test "reindexing" do

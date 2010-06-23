@@ -4,7 +4,7 @@ require 'nest'
 require 'text'
 
 module Lunar
-  VERSION = '0.5.4'
+  VERSION = '0.5.5'
 
   autoload :Connection,     "lunar/connection"
   autoload :LunarNest,      "lunar/lunar_nest"

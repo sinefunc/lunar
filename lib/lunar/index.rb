@@ -117,15 +117,21 @@ module Lunar
     # @param [Numeric] value the numeric value of `att`.
     #
     # @return [Boolean] whether or not the value was added
-    def number(att, value)
+    def number(att, value, purge = true)
+      if value.kind_of?(Enumerable)
+        value.each { |v| number(att, v, false) } and return
+      end
+
       numbers[att].zadd(value, id)
       numbers[att][value].zadd(1, id)
-      numbers[id][att].sadd(value.to_s)
-
-      numbers[id][att].smembers.each do |number|
-        unless number.to_s == value.to_s
-          numbers[id][att].srem(number)
-          numbers[att][number].zrem(id)
+      numbers[id][att].sadd(value)
+      
+      if purge
+        numbers[id][att].smembers.each do |number|
+          unless number.to_s == value.to_s
+            numbers[id][att].srem(number)
+            numbers[att][number].zrem(id)
+          end
         end
       end
     end
