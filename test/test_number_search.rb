@@ -59,4 +59,11 @@ class NumberSearchTest < Test::Unit::TestCase
     search = Lunar.search Gadget, numbers: { category_ids: %w(103 104 105) }
     assert_equal 0, search.size
   end
+
+  test "searching with valid category_ids and an empty price array" do
+    search = Lunar.search(Gadget, numbers: { category_ids: %w(100 101 102),
+                                             price: [""]})
+
+    assert_equal ["1001"], search.map(&:id)
+  end
 end

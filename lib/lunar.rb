@@ -4,7 +4,7 @@ require 'nest'
 require 'text'
 
 module Lunar
-  VERSION = '0.5.5'
+  VERSION = '0.5.6'
 
   autoload :Connection,     "lunar/connection"
   autoload :LunarNest,      "lunar/lunar_nest"
@@ -119,7 +119,8 @@ private
       elsif key == :numbers
         number_matches = value.map { |num_key, num_value|
           unless num_value.to_s.empty?
-            sets << NumberMatches.new(nest[namespace], num_key, num_value).distkey
+            matches = NumberMatches.new(nest[namespace], num_key, num_value)
+            sets << matches.distkey  if matches.distkey
           end
         }
       else
