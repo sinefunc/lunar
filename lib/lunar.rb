@@ -37,7 +37,7 @@ module Lunar
   #   end
   #
   # @see Lunar::Index#initialize
-  # @param [String, Symbol, Class] namespace the namespace if this document.
+  # @param [String, Symbol, Class] namespace the namespace of this document.
   # @yield [Lunar::Index] an instance of Lunar::Index.
   # @return [Lunar::Index] returns the yielded Lunar::Index.
   def self.index(namespace)
