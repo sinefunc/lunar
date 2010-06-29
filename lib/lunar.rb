@@ -7,7 +7,6 @@ module Lunar
   VERSION = '0.5.6'
 
   autoload :Connection,     "lunar/connection"
-  autoload :LunarNest,      "lunar/lunar_nest"
   autoload :Index,          "lunar/index"
   autoload :Scoring,        "lunar/scoring"
   autoload :Words,          "lunar/words"
@@ -101,7 +100,7 @@ module Lunar
 
   # @private convenience method for getting a scoped Nest.
   def self.nest
-    LunarNest.new(:Lunar, redis)
+    Nest.new(:Lunar, redis)
   end
 
 private
