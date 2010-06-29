@@ -21,7 +21,9 @@ module Lunar
   protected
     def keys
       if att == :q
-        metaphones.map { |m| nest['*'][m].keys }
+        metaphones.map { |m| 
+          nest[Index::FIELDS][Index::TEXT].smembers.map { |att| nest[att][m] }
+        }
       else
         metaphones.map { |m| nest[att][m] }
       end

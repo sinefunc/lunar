@@ -22,6 +22,8 @@ class IndexTest < Test::Unit::TestCase
 
       assert_equal %w{APL IFN KS SMRTFN},
         Lunar.nest[:Gadget][:Metaphones][1001][:title].smembers.sort
+
+      assert_equal %w(title), Lunar.redis.smembers('Lunar:Gadget:Fields:Text')
     end
 
     test "deleting non-repeating words scenario" do
@@ -38,6 +40,8 @@ class IndexTest < Test::Unit::TestCase
       assert_equal 0, nest('smartphone').zcard
 
       assert_equal 0, Lunar.nest[:Gadget][1001][:title].scard
+
+      assert ! Lunar.redis.exists('Lunar:Gadget:Fields:Text')
     end
 
     test "with multiple word instances and stopwords" do
@@ -89,6 +93,8 @@ class IndexTest < Test::Unit::TestCase
       
       assert nest('3gs').zrange(0, -1).empty?
       assert nest('smartphone').zrange(0, -1).empty?
+
+      assert_equal %w(title), Lunar.redis.smembers("Lunar:Gadget:Fields:Text")
     end
   end
 
@@ -108,11 +114,14 @@ class IndexTest < Test::Unit::TestCase
       assert_equal '200',  numbers[:price].zscore(1001)
       assert_equal '25.5', numbers[:score].zscore(1001)
 
-     assert_equal '1', numbers[:price]["200"].zscore(1001)
-    
-     assert_equal '1', numbers[:category_ids]["100"].zscore(1001)
-     assert_equal '1', numbers[:category_ids]["101"].zscore(1001)
-     assert_equal '1', numbers[:category_ids]["102"].zscore(1001)
+      assert_equal '1', numbers[:price]["200"].zscore(1001)
+     
+      assert_equal '1', numbers[:category_ids]["100"].zscore(1001)
+      assert_equal '1', numbers[:category_ids]["101"].zscore(1001)
+      assert_equal '1', numbers[:category_ids]["102"].zscore(1001)
+
+      assert_equal %w(category_ids price score), 
+        Lunar.redis.smembers("Lunar:Gadget:Fields:Numbers").sort
     end
     
     test "reindexing" do
@@ -137,6 +146,9 @@ class IndexTest < Test::Unit::TestCase
       assert_equal '1', numbers[:author_ids]["40"].zscore(1001)
       assert_equal '1', numbers[:author_ids]["50"].zscore(1001)
       assert_equal '1', numbers[:author_ids]["60"].zscore(1001)
+
+      assert_equal %w(author_ids price), 
+        Lunar.redis.smembers("Lunar:Gadget:Fields:Numbers").sort
     end
 
     test "allows deletion" do
@@ -151,6 +163,8 @@ class IndexTest < Test::Unit::TestCase
       assert_nil numbers[:price].zrank(1001)
       assert_nil numbers[:score].zrank(1001)
       assert_nil numbers[:price]["200"].zrank(1001)
+
+      assert ! Lunar.redis.exists("Lunar:Gadget:Fields:Numbers")
     end
   end
 
@@ -166,6 +180,9 @@ class IndexTest < Test::Unit::TestCase
       assert_equal 'iphone', Lunar.nest[:Gadget][:Sortables][1001][:name].get
       assert_equal '200',    Lunar.nest[:Gadget][:Sortables][1001][:price].get
       assert_equal '25.5',   Lunar.nest[:Gadget][:Sortables][1001][:score].get
+
+      assert_equal %w(name price score), 
+        Lunar.redis.smembers("Lunar:Gadget:Fields:Sortables").sort
     end
 
     test "deletes sortable fields" do
@@ -181,6 +198,8 @@ class IndexTest < Test::Unit::TestCase
       assert_nil Lunar.nest[:Gadget][:Sortables][1001][:name].get
       assert_nil Lunar.nest[:Gadget][:Sortables][1001][:price].get
       assert_nil Lunar.nest[:Gadget][:Sortables][1001][:score].get
+
+      assert ! Lunar.redis.exists("Lunar:Gadget:Fields:Sortables")
     end
   end
 end

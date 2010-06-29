@@ -6,7 +6,27 @@ module Lunar
   # @see Lunar::index
   # @see Lunar::delete
   class Index
+    # This constant is in place to maintain a certain level of performance.
+    # Fuzzy searching internally stores an index per letter i.e. for Quentin
+    # q
+    # qu
+    # que
+    # quen
+    # quent
+    # quenti
+    # quentin
+    # 
+    # This can become pretty unweildy very fast, so we limit the length
+    # of all fuzzy fields.
     FUZZY_MAX_LENGTH = 100
+ 
+    # The following are all used to construct redis keys
+    TEXT       = :Text
+    METAPHONES = :Metaphones
+    NUMBERS    = :Numbers
+    SORTABLES  = :Sortables
+    FUZZIES    = :Fuzzies
+    FIELDS     = :Fields
 
     MissingID = Class.new(StandardError)
     FuzzyFieldTooLong = Class.new(StandardError)
@@ -16,6 +36,7 @@ module Lunar
     attr :numbers
     attr :sortables
     attr :fuzzies
+    attr :fields
 
     # This is actually wrapped by `Lunar.index` and is not inteded to be
     # used directly.
@@ -24,10 +45,11 @@ module Lunar
     # @return [Lunar::Index]
     def initialize(namespace)
       @nest       = Lunar.nest[namespace]
-      @metaphones = @nest[:Metaphones]
-      @numbers    = @nest[:Numbers]
-      @sortables  = @nest[:Sortables]
-      @fuzzies    = @nest[:Fuzzies]
+      @metaphones = @nest[METAPHONES]
+      @numbers    = @nest[NUMBERS]
+      @sortables  = @nest[SORTABLES]
+      @fuzzies    = @nest[FUZZIES]
+      @fields     = @nest[FIELDS]
     end
 
     # Get / Set the id of the document
@@ -89,6 +111,8 @@ module Lunar
         nest[att][metaphone].zadd(score, id)
         metaphones[id][att].sadd(metaphone)
       end
+
+      fields[TEXT].sadd(att)
     end
 
     # Adds a numeric index for `att` with `value`.
@@ -120,6 +144,8 @@ module Lunar
       numbers[att].zadd(value, id)
       numbers[att][value].zadd(1, id)
       numbers[id][att].sadd(value)
+
+      fields[NUMBERS].sadd att
     end
 
     # Adds a sortable index for `att` with `value`.
@@ -157,6 +183,8 @@ module Lunar
     # @return [String] the response from the redis server.
     def sortable(att, value)
       sortables[id][att].set(value)
+
+      fields[SORTABLES].sadd att
     end
 
     # Deletes everything related to an existing document given its `id`.
@@ -169,6 +197,8 @@ module Lunar
       delete_numbers
       delete_sortables
       delete_fuzzies
+
+      delete_field_meta
     end
 
     def fuzzy(att, value)
@@ -182,6 +212,8 @@ module Lunar
         parts.each { |part, encoded| fuzzies[att][encoded].zadd(1, id) }
         fuzzies[id][att].sadd word
       end
+
+      fields[FUZZIES].sadd att
     end
 
   private
@@ -193,7 +225,7 @@ module Lunar
     end
 
     def delete_metaphones
-      metaphones[id]['*'].matches.each do |key, att|
+      fields[TEXT].smembers.each do |att|
         clear_text_field(att)
       end
     end
@@ -207,7 +239,7 @@ module Lunar
     end
 
     def delete_numbers
-      numbers[id]['*'].matches.each do |key, att|
+      fields[NUMBERS].smembers.each do |att|
         clear_number_field(att)
       end
     end
@@ -223,11 +255,11 @@ module Lunar
 
 
     def delete_sortables
-      sortables[id]['*'].matches.each { |key, att| key.del }
+      fields[SORTABLES].smembers.each { |att| sortables[id][att].del }
     end
 
     def delete_fuzzies
-      fuzzies[id]['*'].matches.each do |key, att|
+      fields[FUZZIES].smembers.each do |att|
         clear_fuzzy_field(att)
       end
     end
@@ -251,6 +283,13 @@ module Lunar
 
         yield word, partials
       end
+    end
+
+    def delete_field_meta
+      fields[TEXT].del
+      fields[NUMBERS].del
+      fields[SORTABLES].del
+      fields[FUZZIES].del
     end
   end
 end
