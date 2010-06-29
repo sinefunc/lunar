@@ -191,7 +191,7 @@ module Lunar
           "#{att} has a value #{value} exceeding the max #{FUZZY_MAX_LENGTH}"
       end
 
-      words = Words.new(value).uniq
+      words = Words.new(value, [:downcase]).uniq
 
       fuzzy_words_and_parts(words) do |word, parts|
         parts.each do |part, encoded|

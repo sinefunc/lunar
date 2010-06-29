@@ -3,11 +3,11 @@ module Lunar
   # of a given text.
   class Scoring
     def initialize(words)
-      @words = Words.new(words)
+      @words = Words.new(words, [:stopwords, :downcase])
     end
 
     def scores
-      @words.inject(Hash.new(0)) { |a, w| a[w.downcase] += 1 and a }
+      @words.inject(Hash.new(0)) { |a, w| a[w] += 1 and a }
     end
   end
 end

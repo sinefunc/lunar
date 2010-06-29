@@ -4,22 +4,43 @@ module Lunar
   # @private Internally used to determine the words given some str.
   # i.e. Words.new("the quick brown") == %w(the quick brown)
   class Words < Array
-    SEPARATOR = /\s+/
+    UnknownFilter = Class.new(ArgumentError)
 
-    def initialize(str, stopwords = true)
+    SEPARATOR = /\s+/
+    FILTERS   = [:stopwords, :downcase]
+
+    def initialize(str, filters = [])
       words = str.split(SEPARATOR).
         reject { |w| w.to_s.strip.empty? }.
         map    { |w| sanitize(w) }
-
-      words.reject! { |w| Stopwords.include?(w) }  if stopwords
+    
+      apply_filters(words, filters)
 
       super(words)
     end
 
   private
+    def apply_filters(words, filters)
+      filters.each do |filter|
+        unless FILTERS.include?(filter)
+          raise UnknownFilter, "Unknown filter: #{ filter }"
+        end
+        
+        send(filter, words)
+      end
+    end
+
+    def stopwords(words)
+      words.reject! { |w| Stopwords.include?(w) }
+    end
+
+    def downcase(words)
+      words.each { |w| w.downcase! }
+    end
+
     def sanitize(str)
-      Iconv.iconv('UTF-8//IGNORE', 'UTF-8', str)[0].to_s.
-        gsub(/[^a-zA-Z0-9\-_]/, '').downcase
+      Iconv.iconv('UTF-8//IGNORE//TRANSLIT', 'UTF-8', str)[0].to_s.
+        gsub(/["'\.,@!$%\^&\*\(\)\[\]\+\-\_\:\;\<\>\\\/\?\`\~]/, '')
     end
   end
 end

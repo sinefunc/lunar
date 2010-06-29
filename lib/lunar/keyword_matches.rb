@@ -28,7 +28,7 @@ module Lunar
     end
 
     def metaphones
-      Words.new(value).map { |word| Lunar.metaphone(word) }
+      Words.new(value, [:stopwords]).map { |word| Lunar.metaphone(word) }
     end
   end
 end

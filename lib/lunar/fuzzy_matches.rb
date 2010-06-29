@@ -20,7 +20,7 @@ module Lunar
 
   protected
     def keys
-      Words.new(value, false).map { |w| nest[:Fuzzies][att][Lunar.encode(w)] }
+      Words.new(value, [:downcase]).map { |w| nest[:Fuzzies][att][Lunar.encode(w)] }
     end
   end
 end

@@ -3,7 +3,7 @@ module Lunar
   # common words like an, the, etc.
   module Stopwords
     def include?(word)
-      stopwords.include?(word)
+      stopwords.include?(word.downcase)
     end
 
   private
