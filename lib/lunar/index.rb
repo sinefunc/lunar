@@ -81,23 +81,14 @@ module Lunar
     #
     # @return [Array<String>] all the metaphones added for the document.
     def text(att, value)
-      old = metaphones[id][att].smembers
-      new = []
+      clear_text_field(att)
 
       Scoring.new(value).scores.each do |word, score|
         metaphone = Lunar.metaphone(word)
 
         nest[att][metaphone].zadd(score, id)
         metaphones[id][att].sadd(metaphone)
-        new << metaphone
       end
-
-      (old - new).each do |metaphone|
-        nest[att][metaphone].zrem(id)
-        metaphones[id][att].srem(metaphone)
-      end
-
-      return new
     end
 
     # Adds a numeric index for `att` with `value`.
@@ -119,21 +110,16 @@ module Lunar
     # @return [Boolean] whether or not the value was added
     def number(att, value, purge = true)
       if value.kind_of?(Enumerable)
+        clear_number_field(att)
+
         value.each { |v| number(att, v, false) } and return
       end
+      
+      clear_number_field(att)  if purge
 
       numbers[att].zadd(value, id)
       numbers[att][value].zadd(1, id)
       numbers[id][att].sadd(value)
-      
-      if purge
-        numbers[id][att].smembers.each do |number|
-          unless number.to_s == value.to_s
-            numbers[id][att].srem(number)
-            numbers[att][number].zrem(id)
-          end
-        end
-      end
     end
 
     # Adds a sortable index for `att` with `value`.
@@ -186,63 +172,73 @@ module Lunar
     end
 
     def fuzzy(att, value)
+      assert_valid_fuzzy(value, att)
+
+      clear_fuzzy_field(att)
+
+      words = Words.new(value, [:downcase, :uniq])
+
+      fuzzy_words_and_parts(words) do |word, parts|
+        parts.each { |part, encoded| fuzzies[att][encoded].zadd(1, id) }
+        fuzzies[id][att].sadd word
+      end
+    end
+
+  private
+    def assert_valid_fuzzy(value, att)
       if value.to_s.length > FUZZY_MAX_LENGTH
         raise FuzzyFieldTooLong,
           "#{att} has a value #{value} exceeding the max #{FUZZY_MAX_LENGTH}"
       end
-
-      words = Words.new(value, [:downcase]).uniq
-
-      fuzzy_words_and_parts(words) do |word, parts|
-        parts.each do |part, encoded|
-          fuzzies[att][encoded].zadd(1, id)
-        end
-        fuzzies[id][att].sadd word
-      end
-
-      delete_fuzzies_for(att, fuzzies[id][att].smembers - words, words)
     end
 
-  private
     def delete_metaphones
       metaphones[id]['*'].matches.each do |key, att|
-        key.smembers.each do |metaphone|
-          nest[att][metaphone].zrem id
-        end
-
-        key.del
+        clear_text_field(att)
       end
+    end
+
+    def clear_text_field(att)
+      metaphones[id][att].smembers.each do |metaphone|
+        nest[att][metaphone].zrem id
+      end
+
+      metaphones[id][att].del
     end
 
     def delete_numbers
-      numbers['*'].matches.each do |key, att|
-        case key.type
-        when 'zset' then numbers[att].zrem(id)
-        when 'set'  then numbers[att].del
-        end
+      numbers[id]['*'].matches.each do |key, att|
+        clear_number_field(att)
       end
     end
 
-    def delete_sortables
-      sortables[id]['*'].keys.each do |key|
-        Lunar.redis.del key
+    def clear_number_field(att)
+      numbers[id][att].smembers.each do |number|
+        numbers[att][number].zrem(id)
+        numbers[att].zrem(id)
       end
+
+      numbers[id][att].del
+    end
+
+
+    def delete_sortables
+      sortables[id]['*'].matches.each { |key, att| key.del }
     end
 
     def delete_fuzzies
       fuzzies[id]['*'].matches.each do |key, att|
-        delete_fuzzies_for(att, key.smembers)
-        key.del
+        clear_fuzzy_field(att)
       end
     end
-
-    def delete_fuzzies_for(att, words_to_delete, existing_words = [])
-      fuzzy_words_and_parts(words_to_delete) do |word, parts|
+  
+    def clear_fuzzy_field(att)
+      fuzzy_words_and_parts(fuzzies[id][att].smembers) do |word, parts|
         parts.each do |part, encoded|
-          next if existing_words.grep(/^#{part}/u).any?
           fuzzies[att][encoded].zrem(id)
         end
-        fuzzies[id][att].srem word
+
+        fuzzies[id][att].del
       end
     end
 

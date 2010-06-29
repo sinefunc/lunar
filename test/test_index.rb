@@ -86,7 +86,7 @@ class IndexTest < Test::Unit::TestCase
       assert_equal ['1001'], nest('apple').zrangebyscore(1, 1)
       assert_equal ['1001'], nest('iphone').zrangebyscore(1, 1)
       assert_equal ['1001'], nest('3g').zrangebyscore(1, 1)
-
+      
       assert nest('3gs').zrange(0, -1).empty?
       assert nest('smartphone').zrange(0, -1).empty?
     end
@@ -119,15 +119,24 @@ class IndexTest < Test::Unit::TestCase
       Lunar.index :Gadget do |i|
         i.id 1001
         i.number :price, 200
+        i.number :author_ids, [10, 20, 30]
       end
 
       Lunar.index :Gadget do |i|
         i.id 1001
         i.number :price, 150
+        i.number :author_ids, [40, 50, 60]
       end
 
       assert_nil numbers[:price]["200"].zrank(1001)
       assert_equal '1', numbers[:price]["150"].zscore(1001)
+      
+      assert_nil numbers[:author_ids]["10"].zrank(1001)
+      assert_nil numbers[:author_ids]["20"].zrank(1001)
+      assert_nil numbers[:author_ids]["30"].zrank(1001)
+      assert_equal '1', numbers[:author_ids]["40"].zscore(1001)
+      assert_equal '1', numbers[:author_ids]["50"].zscore(1001)
+      assert_equal '1', numbers[:author_ids]["60"].zscore(1001)
     end
 
     test "allows deletion" do
@@ -169,9 +178,9 @@ class IndexTest < Test::Unit::TestCase
 
       Lunar.delete :Gadget, 1001
 
-      assert_nil Lunar.nest[:Gadget][1001][:name].get
-      assert_nil Lunar.nest[:Gadget][1001][:price].get
-      assert_nil Lunar.nest[:Gadget][1001][:score].get
+      assert_nil Lunar.nest[:Gadget][:Sortables][1001][:name].get
+      assert_nil Lunar.nest[:Gadget][:Sortables][1001][:price].get
+      assert_nil Lunar.nest[:Gadget][:Sortables][1001][:score].get
     end
   end
 end

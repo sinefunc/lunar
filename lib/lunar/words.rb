@@ -7,7 +7,7 @@ module Lunar
     UnknownFilter = Class.new(ArgumentError)
 
     SEPARATOR = /\s+/
-    FILTERS   = [:stopwords, :downcase]
+    FILTERS   = [:stopwords, :downcase, :uniq]
 
     def initialize(str, filters = [])
       words = str.split(SEPARATOR).
@@ -36,6 +36,10 @@ module Lunar
 
     def downcase(words)
       words.each { |w| w.downcase! }
+    end
+
+    def uniq(words)
+      words.uniq!
     end
 
     def sanitize(str)
