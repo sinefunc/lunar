@@ -96,7 +96,7 @@ module Lunar
 
   # @private abstraction of how encoding should be done for Lunar.
   def self.encode(word)
-    Base64.encode64(word).strip
+    Base64.encode64(word).gsub("\n", "")
   end
 
   # @private convenience method for getting a scoped Nest.
