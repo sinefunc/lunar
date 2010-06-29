@@ -197,8 +197,6 @@ module Lunar
       delete_numbers
       delete_sortables
       delete_fuzzies
-
-      delete_field_meta
     end
 
     def fuzzy(att, value)
@@ -283,13 +281,6 @@ module Lunar
 
         yield word, partials
       end
-    end
-
-    def delete_field_meta
-      fields[TEXT].del
-      fields[NUMBERS].del
-      fields[SORTABLES].del
-      fields[FUZZIES].del
     end
   end
 end

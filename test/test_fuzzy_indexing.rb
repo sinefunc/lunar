@@ -74,12 +74,18 @@ class LunarFuzzyTest < Test::Unit::TestCase
 
   context "on delete" do
     setup do
-      @index = Lunar.index 'Item' do |i|
+      @index1 = Lunar.index 'Item' do |i|
         i.id 1001
         i.fuzzy :name, 'Yukihiro Matsumoto'
       end
 
+      @index2 = Lunar.index 'Item' do |i|
+        i.id 1002
+        i.fuzzy :name, 'Linus Torvalds'
+      end
+
       Lunar.delete('Item', 1001)
+      Lunar.delete('Item', 1002)
     end
 
     should "remove all fuzzy entries for Yukihiro Matsumoto" do
@@ -93,8 +99,20 @@ class LunarFuzzyTest < Test::Unit::TestCase
       end
     end
 
-    should "also remove the key Lunar:Item:Fuzzies:1001:name" do
+    should "remove all fuzzy entries for Linus Torvalds" do
+      nest = Lunar.nest[:Item][:Fuzzies][:name]
+
+      %w{linus torvalds}.each do |word|
+        (1..word.length).each do |length|
+          key = nest[encode(word[0, length])]
+          assert_nil key.zscore(1001)
+        end
+      end
+    end
+
+    should "also remove the key Lunar:Item:Fuzzies:*:name" do
       assert ! Lunar.redis.exists("Lunar:Item:Fuzzies:1001:name")
+      assert ! Lunar.redis.exists("Lunar:Item:Fuzzies:1002:name")
     end
   end
 

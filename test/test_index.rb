@@ -40,8 +40,6 @@ class IndexTest < Test::Unit::TestCase
       assert_equal 0, nest('smartphone').zcard
 
       assert_equal 0, Lunar.nest[:Gadget][1001][:title].scard
-
-      assert ! Lunar.redis.exists('Lunar:Gadget:Fields:Text')
     end
 
     test "with multiple word instances and stopwords" do
@@ -163,8 +161,6 @@ class IndexTest < Test::Unit::TestCase
       assert_nil numbers[:price].zrank(1001)
       assert_nil numbers[:score].zrank(1001)
       assert_nil numbers[:price]["200"].zrank(1001)
-
-      assert ! Lunar.redis.exists("Lunar:Gadget:Fields:Numbers")
     end
   end
 
@@ -198,8 +194,6 @@ class IndexTest < Test::Unit::TestCase
       assert_nil Lunar.nest[:Gadget][:Sortables][1001][:name].get
       assert_nil Lunar.nest[:Gadget][:Sortables][1001][:price].get
       assert_nil Lunar.nest[:Gadget][:Sortables][1001][:score].get
-
-      assert ! Lunar.redis.exists("Lunar:Gadget:Fields:Sortables")
     end
   end
 end
