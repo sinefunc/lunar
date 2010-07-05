@@ -201,4 +201,32 @@ class TestLunar < Test::Unit::TestCase
       assert_equal %w{1001}, q(:q => 'apple', :fuzzy => { :code => 'mobile' })
     end
   end
+
+  context "searching multiple fuzzy fields at the same time" do
+    setup do
+      Lunar.index Gadget do |i|
+        i.id 1001
+        i.fuzzy :first, "The First"
+        i.fuzzy :last,  "The Last"
+      end
+
+      Lunar.index Gadget do |i|
+        i.id 1002
+        i.fuzzy :first, "La Primera"
+        i.fuzzy :last,  "El Ultimo"
+      end
+    end 
+
+    test "fails to find non-intersecting sets" do
+      res = Lunar.search Gadget, :fuzzy => { :first => "First", :last => "Primera" }
+
+      assert_equal 0, res.size
+    end
+
+    test "is able to find First and Last" do
+      res = Lunar.search Gadget, :fuzzy => { :first => "First", :last => "Last" }
+  
+      assert_equal %w{1001}, res.map(&:id)
+    end
+  end
 end
