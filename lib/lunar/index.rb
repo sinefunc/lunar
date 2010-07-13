@@ -103,8 +103,8 @@ module Lunar
     #
     # @return [Array<String>] all the metaphones added for the document.
     def text(att, value)
-      if value.kind_of?(Array)
-        text(att, value.join(' ')) and return
+      if value.respond_to?(:to_a)
+        text(att, value.to_a.join(' ')) and return
       end
 
       clear_text_field(att)
