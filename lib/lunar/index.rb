@@ -103,6 +103,10 @@ module Lunar
     #
     # @return [Array<String>] all the metaphones added for the document.
     def text(att, value)
+      if value.kind_of?(Array)
+        text(att, value.join(' ')) and return
+      end
+
       clear_text_field(att)
 
       Scoring.new(value).scores.each do |word, score|

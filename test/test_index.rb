@@ -26,6 +26,23 @@ class IndexTest < Test::Unit::TestCase
       assert_equal %w(title), Lunar.redis.smembers('Lunar:Gadget:Fields:Text')
     end
 
+    test "with non-repeating words in an array" do
+      ret = Lunar.index :Gadget do |i|
+        i.id 1001
+        i.text :title, %w(apple iphone 3GS smartphone)
+      end
+
+      assert_equal ['1001'], nest('apple').zrangebyscore(1, 1)
+      assert_equal ['1001'], nest('iphone').zrangebyscore(1, 1)
+      assert_equal ['1001'], nest('3gs').zrangebyscore(1, 1)
+      assert_equal ['1001'], nest('smartphone').zrangebyscore(1, 1)
+
+      assert_equal %w{APL IFN KS SMRTFN},
+        Lunar.nest[:Gadget][:Metaphones][1001][:title].smembers.sort
+
+      assert_equal %w(title), Lunar.redis.smembers('Lunar:Gadget:Fields:Text')
+    end
+
     test "deleting non-repeating words scenario" do
       ret = Lunar.index :Gadget do |i|
         i.id 1001
