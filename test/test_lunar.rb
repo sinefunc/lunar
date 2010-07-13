@@ -67,6 +67,20 @@ class TestLunar < Test::Unit::TestCase
       assert_equal %w{1003}, q(:q => '9000')
     end
 
+    test "fulltext searching with an except" do
+      assert_equal [], q(:q => 'apple', :except => { :numbers => { :price => 200 }})
+      assert_equal [], q(:q => 'iphone', :except => { :numbers => { :price => 200 }})
+      assert_equal [], q(:q => '3gs', :except => { :numbers => { :price => 200 }})
+      assert_equal %w{1001 1002}, q(:q => 'smartphone', :except => { :numbers => { :price => 170 }})
+      assert_equal %w{1001 1002}, q(:q => 'mobile', :except => { :numbers => { :price => 170 }})
+      assert_equal [], q(:q => 'nokia', :except => { :fuzzy => { :code => 'nokia' }})
+      assert_equal [], q(:q => 'n95', :except => { :fuzzy => { :code => 'nokia'}})
+      assert_equal [], q(:q => 'symbian', :except => { :fuzzy => { :code => 'nokia'}})
+      assert_equal %w{1003}, q(:q => 'blackberry', :except => { :fuzzy => { :code => 'nokia'}})
+      assert_equal %w{1003}, q(:q => 'bold', :except => { :fuzzy => { :code => 'nokia'}})
+      assert_equal %w{1003}, q(:q => '9000', :except => { :fuzzy => { :code => 'nokia'}})
+    end
+
     test "searching non-existent words" do
       assert_equal [], q(:q => "ericson")
       assert_equal [], q(:q => "ericson", :title => "apple")

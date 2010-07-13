@@ -82,8 +82,15 @@ module Lunar
   #
   # @return Lunar::ResultSet an Enumerable object.
   def self.search(namespace, options, finder = lambda { |id| namespace[id] })
+    reductions = options.delete(:except)
+
     sets = find_and_combine_sorted_sets_for(namespace, options)
     key  = try_intersection_of_sorted_sets(namespace, sets, options)
+
+    if reductions
+      except = find_and_combine_sorted_sets_for(namespace, reductions)
+      try_difference_of_sorted_sets(namespace, key, except, reductions)
+    end
 
     ResultSet.new(key, nest[namespace], finder)
   end
@@ -141,5 +148,18 @@ private
       nest[namespace][options.hash].zinterstore sets
       nest[namespace][options.hash]
     end
+  end
+
+  def self.try_difference_of_sorted_sets(namespace, key, sets, options)
+    return if sets.empty?
+
+    nest[namespace][options.hash].zinterstore sets
+    ids = nest[namespace][options.hash].zrange(0, -1)
+    redis.pipelined do
+      ids.each do |id|
+        key.zrem id
+      end
+    end
+    key
   end
 end
